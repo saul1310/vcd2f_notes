@@ -1,9 +1,206 @@
 ---
-title: "Post With Code"
-author: "Harlow Malloc"
+title: "TestPyPI"
+author: "Saul Ifshin"
 date: "2025-05-27"
 categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+I created a new directory inside my branch named  **github**
+
+with a folder inside named 
+
+**workflows**
+
+Inside this **workflows** I created a publish.yml file
+
+For info on YAML files I read this guide
+
+https://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started
+
+For info on setting up a testpypi account and publishing the package I used
+
+https://www.pyopensci.org/python-package-guide/tutorials/publish-pypi.html
+
+Notes from paper:
+
+**What is building a package?**
+
+The build process organizes the code and metadata into a distribution format that can be uploaded to PYPI and subsequently downloaded and installed by users
+
+**TestPyPI vs PYPI**
+
+1. [**TestPyPI](https://test.pypi.org/):** TestPyPI is a package repository provided by PyPI that you can use for testing that your package can be uploaded, downloaded, and installed correctly. This is a great place to practice and learn how to publish a package without exposing your incomplete package on the real PyPI service.
+2. [**PyPI](https://pypi.org/):** This is the live, production PyPI repository where you can officially publish your Python package, and from which users will get your package. IMPORTANT: Only publish your package to PyPI when you are ready for it to be used by others and/or confident that it will become a package that you will maintain. PyPI is not a place to practice learning how to publish a Python package.
+
+**Wheel distribution**
+
+### **What Is a Python Wheel?**
+
+A Python `.whl` file is essentially a ZIP (`.zip`) archive with a specially crafted filename that tells installers what Python versions and platforms the wheel will support.
+
+A wheel is a type of [**built distribution**](https://packaging.python.org/glossary/#term-built-distribution). In this case, *built* means that the wheel comes in a ready-to-install format and allows you to skip the build stage required with source distributions.
+
+Example of installing something that isnt a wheel
+
+```bash
+$ python -m pip install 'uwsgi==2.0.*'
+Collecting uwsgi==2.0.*
+  Downloading uwsgi-2.0.18.tar.gz (801 kB)
+   |████████████████████████████████| 801 kB 1.1 MB/s
+Building wheels for collected packages: uwsgi
+  Building wheel for uwsgi (setup.py) ... done
+  Created wheel for uwsgi ... uWSGI-2.0.18-cp38-cp38-macosx_10_15_x86_64.whl
+  Stored in directory: /private/var/folders/jc/8_hqsz0x1tdbp05 ...
+Successfully built uwsgi
+Installing collected packages: uwsgi
+Successfully installed uwsgi-2.0.18
+```
+
+### **What Is a Python Wheel?**
+
+A Python `.whl` file is essentially a ZIP (`.zip`) archive with a specially crafted filename that tells installers what Python versions and platforms the wheel will support.
+
+A wheel is a type of [**built distribution**](https://packaging.python.org/glossary/#term-built-distribution). In this case, *built* means that the wheel comes in a ready-to-install format and allows you to skip the build stage required with source distributions.
+
+the installation process of this goes through a couple steps:
+
+on line 3 it downloads a **TAR file** (Tarball)  name uwsgi-2.0.18.tar.gz (gz just means its been compressed with gzip)
+
+on line 6 it takes the tarball and builds a .whl file through a call to setup.py
+
+on line 7 it labels the wheel
+
+```bash
+ uWSGI-2.0.18-cp38-cp38-macosx_10_15_x86_64.whl
+```
+
+on line 10 it installs the actual package after having built the wheel
+
+In this example the tar.gz tarball that pip retrieves is a source distribution, or **sdist**, rather than a wheel.
+
+Here is an example of installing a different package as a wheel
+
+```bash
+$ python -m pip install 'chardet==3.*'
+Collecting chardet
+  Downloading chardet-3.0.4-py2.py3-none-any.whl (133 kB)
+     |████████████████████████████████| 133 kB 1.5 MB/s
+Installing collected packages: chardet
+Successfully installed chardet-3.0.4 
+```
+
+Installing this package downloads a .whl file directly from PYPY.
+
+Whats important about this is that there is no build stage when pip finds a compatible wheel on PYPI.
+
+*(note: what does that mean? that it doesn't have to compile the extension modules? is that good? does it save time?)*
+
+here are the summarized differences of the pacakges
+
+- **uWSGI** [provides only a source distribution](https://pypi.org/project/uWSGI/2.0.18/#files) (`uwsgi-2.0.18.tar.gz`) for reasons related to the complexity of the project.
+- **chardet** [provides both a wheel and a source distribution](https://pypi.org/project/chardet/3.0.4/#files), but `pip` will prefer the wheel *if* it’s compatible with your system. You’ll see how that compatibility is determined later on.
+
+*note: does the complexity of the project determine whether or not a wheel format is possible?*
+
+note: wheels are specific to OS
+
+**some packages offer multiple wheels, with each wheel geared toward a specific Python implementation and underlying operating system.**
+
+Key points:
+
+1. All else being equal, wheels are typically **smaller in size** than source distributions, meaning they can move faster across a network.
+2. Installing from wheels directly avoids the intermediate step of **building** packages off of the source distribution.
+
+**Sdist file**
+
+A source distribution contains source code. this includes python code, as well as any extension modules usually in C or C++ bundled with the package. with source distributions extensions modules are compiled on the users side rather than the developers.
+
+After completing this I downloaded hatch and began following this guide to set it up
+
+**Hatch**
+
+info from
+
+ https://www.pyopensci.org/python-package-guide/tutorials/get-to-know-hatch.html
+
+Packaging Tool
+
+supports most of the steps required to create a quality python package.
+
+downloaded from Hatch website
+
+**config.toml**
+
+**Tar Files**
+
+Once this was completed I started attempting to create an installable python package
+
+![image.png](attachment:39ae1e53-965e-45ae-9323-d95b39ea460a:image.png)
+
+Left off here 5/3/2025
+
+https://www.pyopensci.org/python-package-guide/tutorials/installable-code.html
+
+A Basic Installable package requires a few things:
+
+- A `pyproject.toml` file.
+- A specific directory structure.
+- Some code.
+- An `__init__.py` file in your code directory.
+
+The directory structure you’ll create in this lesson will look like this:
+
+`pyospackage/  # Your project directory
+ └─ pyproject.toml
+ └─ src/  # The source (src) directory ensures your tests always run on the installed version of your code
+    └── pyospackage/  # Package directory where code lives
+        ├── __init__.py
+        ├── add_numbers.py
+        └── # Add any other .py modules that you want here`
+
+1. Within the `src` directory you have a package directory called `pyospackage`. Use the name of your package for that directory name. This will be the name for importing your package in Python code once installed.
+
+2. The `pyproject.toml` file lives at the root directory of your package.
+
+1. The `__init__.py` file tells Python that a directory should be treated as a Python package. As such, a directory with an `__init__.py` file can be imported directly into Python. The `__init__.py` file does not need to contain any code in order for Python to recognize it; it can be empty.
+
+## Project.toml file
+
+---
+
+where you define the projects metadata, authors,license,etc
+
+where you define dependencies
+
+used to specify and conmfigure what build backend you want to use to build your package.
+
+After the `__init__.py` and `pyproject.toml` files have been added, your package can be built and distributed as an installable Python package using tools such as pip. Note that the `pyproject.toml` file needs to have a few basic items defined for the package to be installable including:
+
+- The `build-backend` that you want to use,
+- The project `name` and `version`.
+
+trying to install a package without a project.toml file will return this error:
+
+```bash
+GitHub/pyospackage/testme
+➜ python -m pip install .
+ERROR: Directory '.' is not installable.
+Neither 'setup.py' nor 'pyproject.toml' found.
+```
+
+**Questions:**
+
+Does the repo have to first be built into a Sdist or Wheel before it can be added to TestPYPI?
+
+building with Flit?
+
+left off:
+
+made a testpypi account
+
+generated an API key
+
+trying to upload pysaul with twine,
+
+not accepting my api key though
