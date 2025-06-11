@@ -11,7 +11,7 @@
     "href": "index.html",
     "title": "vcd2f_notes_SIfshin",
     "section": "",
-    "text": "Welcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 24, 2025\n\n\nTristan O’Malley\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 24, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+    "text": "TestPYPI Notes\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 24, 2025\n\n\nSaul Ifshin\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 24, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -23,14 +23,14 @@
   {
     "objectID": "posts/TestPYPI/index.html",
     "href": "posts/TestPYPI/index.html",
-    "title": "Welcome To My Blog",
+    "title": "TestPYPI Notes",
     "section": "",
     "text": "I created a new directory inside my branch named github\nwith a folder inside named\nworkflows\nInside this workflows I created a publish.yml file\nFor info on YAML files I read this guide\nhttps://www.cloudbees.com/blog/yaml-tutorial-everything-you-need-get-started\nFor info on setting up a testpypi account and publishing the package I used\nhttps://www.pyopensci.org/python-package-guide/tutorials/publish-pypi.html\nNotes from paper:\nWhat is building a package?\nThe build process organizes the code and metadata into a distribution format that can be uploaded to PYPI and subsequently downloaded and installed by users\nTestPyPI vs PYPI\nWheel distribution"
   },
   {
     "objectID": "posts/TestPYPI/index.html#project.toml-file",
     "href": "posts/TestPYPI/index.html#project.toml-file",
-    "title": "Welcome To My Blog",
+    "title": "TestPYPI Notes",
     "section": "Project.toml file",
     "text": "Project.toml file\n\nwhere you define the projects metadata, authors,license,etc\nwhere you define dependencies\nused to specify and conmfigure what build backend you want to use to build your package.\nAfter the __init__.py and pyproject.toml files have been added, your package can be built and distributed as an installable Python package using tools such as pip. Note that the pyproject.toml file needs to have a few basic items defined for the package to be installable including:\n\nThe build-backend that you want to use,\nThe project name and version.\n\ntrying to install a package without a project.toml file will return this error:\nGitHub/pyospackage/testme\n➜ python -m pip install .\nERROR: Directory '.' is not installable.\nNeither 'setup.py' nor 'pyproject.toml' found.\nQuestions:\nDoes the repo have to first be built into a Sdist or Wheel before it can be added to TestPYPI?\nbuilding with Flit?\nleft off:\nmade a testpypi account\ngenerated an API key\ntrying to upload pysaul with twine,\nnot accepting my api key though"
   }
